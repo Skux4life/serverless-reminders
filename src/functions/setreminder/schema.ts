@@ -2,9 +2,9 @@ export default {
     type: 'object',
     properties: {
         user: { type: 'string' },
-        ttl: { type: 'string', format: 'date-time' },
-        notificationType: { type: 'string', enum: ['email', 'sms'] },
+        due: { type: 'string', format: 'date-time' },
+        notificationType: { type: 'string', enum: ['mobile', 'email'] },
         message: { type: 'string' },
     },
-    required: ['user', 'ttl', 'notificationType', 'message'],
+    required: ['user', 'due', 'notificationType', 'message'],
 } as const;

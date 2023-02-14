@@ -5,12 +5,7 @@ import setReminder from '@functions/setreminder';
 const serverlessConfiguration: AWS = {
     service: 'reminder-app',
     frameworkVersion: '3',
-    plugins: [
-        'serverless-esbuild',
-        'serverless-iam-roles-per-function',
-        'serverless-offline',
-        'serverless-dynamodb-local',
-    ],
+    plugins: ['serverless-esbuild', 'serverless-iam-roles-per-function'],
     provider: {
         name: 'aws',
         region: 'ap-southeast-2',
@@ -55,37 +50,42 @@ const serverlessConfiguration: AWS = {
                     TableName: 'RemindersTable',
                     AttributeDefinitions: [
                         {
-                            AttributeName: 'userid',
+                            AttributeName: 'userId',
                             AttributeType: 'S',
                         },
                         {
-                            AttributeName: 'reminderid',
+                            AttributeName: 'reminderId',
                             AttributeType: 'N',
                         },
                         {
-                            AttributeName: 'createdate',
+                            AttributeName: 'createDate',
                             AttributeType: 'S',
                         },
                     ],
                     KeySchema: [
                         {
-                            AttributeName: 'reminderid',
+                            AttributeName: 'reminderId',
                             KeyType: 'HASH',
                         },
                     ],
-                    GlobalSecondaryIndexes: {
-                        IndexName: 'UserIndex',
-                        KeySchema: [
-                            {
-                                AttributeName: 'userid',
-                                KeyType: 'HASH',
+                    GlobalSecondaryIndexes: [
+                        {
+                            IndexName: 'UserIndex1',
+                            KeySchema: [
+                                {
+                                    AttributeName: 'userId',
+                                    KeyType: 'HASH',
+                                },
+                                {
+                                    AttributeName: 'createDate',
+                                    KeyType: 'RANGE',
+                                },
+                            ],
+                            Projection: {
+                                ProjectionType: 'ALL', // this may not be neccessary
                             },
-                            {
-                                AttributeName: 'createdate',
-                                KeyType: 'RANGE',
-                            },
-                        ],
-                    },
+                        },
+                    ],
                     TimeToLiveSpecification: {
                         AttributeName: 'due',
                         Enabled: true,

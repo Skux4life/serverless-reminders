@@ -1,13 +1,22 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import reminderService from 'src/services';
 
 import schema from './schema';
 
 const setReminder: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+    const id = Date.now();
+    const reminder = await reminderService.createReminder({
+        reminderId: id,
+        userId: event.body.user,
+        createDate: new Date().toString(),
+        message: event.body.message,
+        notificationType: event.body.notificationType,
+        due: new Date(event.body.due).getTime(),
+    });
     return formatJSONResponse({
-        message: `Hello ${event.body.user}, welcome to the exciting Serverless world!`,
-        event,
+        message: `Created reminder ${reminder}`,
     });
 };
 

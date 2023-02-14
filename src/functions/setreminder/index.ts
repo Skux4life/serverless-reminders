@@ -16,7 +16,7 @@ export default {
             },
         },
     ],
-    iamRoleStatments: [
+    iamRoleStatements: [
         {
             Effect: 'Allow',
             Action: ['dynamodb:PutItem'],

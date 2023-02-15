@@ -1,6 +1,5 @@
+import { getReminder, setReminder } from '@functions/index';
 import type { AWS } from '@serverless/typescript';
-
-import setReminder from '@functions/setreminder';
 
 const serverlessConfiguration: AWS = {
     service: 'reminder-app',
@@ -20,7 +19,7 @@ const serverlessConfiguration: AWS = {
         },
     },
     // import the function via paths
-    functions: { setReminder },
+    functions: { setReminder, getReminder },
     package: { individually: true },
     custom: {
         esbuild: {

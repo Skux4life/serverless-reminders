@@ -13,7 +13,7 @@ const setReminder: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (ev
         createDate: new Date().toString(),
         message: event.body.message,
         notificationType: event.body.notificationType,
-        due: new Date(event.body.due).getTime(),
+        due: new Date(event.body.due).getTime() / 1000,
     });
     return formatJSONResponse({
         message: `Created reminder, reminderId: ${reminder.reminderId}`,

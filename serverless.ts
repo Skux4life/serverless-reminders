@@ -1,4 +1,4 @@
-import { getReminder, getReminders, setReminder } from '@functions/index';
+import { getReminder, getReminders, sendReminder, setReminder } from '@functions/index';
 import type { AWS } from '@serverless/typescript';
 
 const serverlessConfiguration: AWS = {
@@ -19,7 +19,7 @@ const serverlessConfiguration: AWS = {
         },
     },
     // import the function via paths
-    functions: { setReminder, getReminder, getReminders },
+    functions: { setReminder, getReminder, getReminders, sendReminder },
     package: { individually: true },
     custom: {
         esbuild: {
@@ -90,6 +90,9 @@ const serverlessConfiguration: AWS = {
                         Enabled: true,
                     },
                     BillingMode: 'PAY_PER_REQUEST',
+                    StreamSpecification: {
+                        StreamViewType: 'OLD_IMAGE',
+                    },
                 },
             },
         },
